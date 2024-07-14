@@ -1,11 +1,19 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import css from './App.module.css'
 import SearchBar from './components/SearchBar/SearchBar'
+import { Toaster, toast } from 'react-hot-toast';
 
-function App(){
-return (<SearchBar />
-)
+function App() {
+  
+return (
+    <div className="App">
+      <Toaster />
+      <SearchBar />
+    </div>
+  );
 }
+
+
+
 
 export default App

@@ -1,13 +1,18 @@
-const SearchBar (onSubmit) {
-  
-  
+import { useState } from 'react'
+
+const SearchBar = ({ onSubmit }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+
+
   return (
     <header>
   <form>
     <input
       type="text"
-      autocomplete="off"
-      autofocus
+      autoComplete="off"
+      autoFocus ="on"
       placeholder="Search images and photos"
     />
     <button type="submit">Search</button>
