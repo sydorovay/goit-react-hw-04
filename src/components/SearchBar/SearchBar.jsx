@@ -1,23 +1,42 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+// eslint-disable-next-line react/prop-types
 const SearchBar = ({ onSubmit }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const [query, setQuery] = useState('');
+
+  const handleChange = (evt) => {
+    setQuery(evt.target.value);
+  };
 
 
-
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (query.trim() === '') {
+      toast.error('Please enter a search term');
+      return;
+    }
+    onSubmit(query.trim());
+    setQuery('');
+  };
 
   return (
     <header>
-  <form>
-    <input
-      type="text"
-      autoComplete="off"
-      autoFocus ="on"
-      placeholder="Search images and photos"
-    />
-    <button type="submit">Search</button>
-  </form>
-</header>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={query}
+          onChange={handleChange}
+        />
+        <button type="submit">Search</button>
+        <toast />
+      </form>
+    </header>
   )
 }
 export default SearchBar
