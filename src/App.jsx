@@ -2,6 +2,8 @@ import { useState } from 'react'
 import css from './App.module.css'
 import SearchBar from './components/SearchBar/SearchBar'
 import ImageGallery from './components/ImageGallery/ImageGallery';
+import Loader from './components/Loader/Loader';
+
 
 
 const App = () => {
@@ -20,6 +22,7 @@ const App = () => {
     <div>
       <SearchBar onSubmit={handleSearchSubmit} />
       <ImageGallery images={images} />
+     <Loader />
     </div>
   );
 };
