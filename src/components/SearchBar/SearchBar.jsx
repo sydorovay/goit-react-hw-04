@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function SearchBar({ onSubmit }) {
-
+// eslint-disable-next-line react/prop-types
+const SearchBar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
   const handleChange = (evt) => {
     setQuery(evt.target.value);
   };
-
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -30,11 +29,13 @@ function SearchBar({ onSubmit }) {
           autoFocus
           placeholder="Search images and photos"
           value={query}
-          onChange={handleChange} />
+          onChange={handleChange}
+        />
         <button type="submit">Search</button>
         <ToastContainer />
       </form>
     </header>
   );
-}
-export default SearchBar
+};
+
+export default SearchBar;

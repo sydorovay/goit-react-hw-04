@@ -1,14 +1,30 @@
-const ImageGallery = () => {
+import PropTypes from 'prop-types';
+import ImageCard from '../ImageCard/ImageCard';
+
+function ImageGalleryItem({ image }) {
   return (
-    <ul>
-	{/* Набір елементів списку із зображеннями */}
-	<li>
-		<div>
-		  <img src="" alt="" />
-		</div>
-	</li>
-</ul>
-  )
+    <div>
+      <ImageCard />
+    </div>
+  );
 }
 
-export default ImageGallery
+
+// Компонент ImageGallery
+const ImageGallery = ({ images }) => {
+  if (images.length === 0) {
+    return null;
+  }
+
+  return (
+    <ul>
+      {images.map((image) => (
+        <li key={image.id}>
+          <ImageGalleryItem image={image} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default ImageGallery;
