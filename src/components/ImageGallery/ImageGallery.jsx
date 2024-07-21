@@ -1,25 +1,11 @@
 import ImageCard from '../ImageCard/ImageCard';
 
-function ImageGalleryItem({ image }) {
+const ImageGallery = ({ images, onImageClick }) => {
   return (
-    <div>
-      <ImageCard />
-    </div>
-  );
-}
-
-
-// Компонент ImageGallery
-const ImageGallery = ({ images }) => {
-  if (images.length === 0) {
-    return null;
-  }
-
-  return (
-    <ul>
+    <ul className="image-gallery">
       {images.map((image) => (
         <li key={image.id}>
-          <ImageGalleryItem image={image} />
+          <ImageCard image={image} onClick={() => onImageClick(image)} />
         </li>
       ))}
     </ul>

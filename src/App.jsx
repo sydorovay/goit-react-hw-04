@@ -1,28 +1,74 @@
-import { useState } from 'react'
-import css from './App.module.css'
-import SearchBar from './components/SearchBar/SearchBar'
+import { useState, useEffect } from 'react';
+import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Loader from './components/Loader/Loader';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import ImageModal from './components/ImageModal/ImageModal';
+import './App.module.css';
 
-
+const ACCESS_KEY = '6ExAHC6-du7tOAIV_7CaxGFdf31Pi8h-TkJXD2D6UvY';
 
 const App = () => {
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleSearchSubmit = (query) => {
-    // Імітуємо пошук зображень за допомогою API або іншого методу
-    const fetchedImages = [
-      { id: 1, url: 'https://example.com/image1.jpg', alt: 'Image 1' },
-      { id: 2, url: 'https://example.com/image2.jpg', alt: 'Image 2' },
-    ];
-    setImages(fetchedImages);
+  useEffect(() => {
+    if (query) {
+      fetchImages();
+    }
+  }, [query, page]);
+
+  const fetchImages = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=${ACCESS_KEY}`);
+      const data = await response.json();
+      if (response.ok) {
+        setImages((prevImages) => [...prevImages, ...data.results]);
+      } else {
+        setError(data.errors[0]);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
+  const handleSearch = (searchQuery) => {
+    setQuery(searchQuery);
+    setImages([]);
+    setPage(1);
+  };
+
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedImage(null);
   };
 
   return (
-    <div>
-      <SearchBar onSubmit={handleSearchSubmit} />
-      <ImageGallery images={images} />
-     <Loader />
+    <div className="app">
+      <SearchBar onSubmit={handleSearch} />
+      {error && <ErrorMessage message={error} />}
+      <ImageGallery images={images} onImageClick={handleImageClick} />
+      {loading && <Loader />}
+      {images.length > 0 && !loading && <LoadMoreBtn onLoadMore={handleLoadMore} />}
+      {showModal && <ImageModal image={selectedImage} onClose={closeModal} />}
     </div>
   );
 };

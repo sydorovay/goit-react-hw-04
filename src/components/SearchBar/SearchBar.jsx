@@ -1,22 +1,20 @@
-import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
+import {useState} from 'react'
 
-// eslint-disable-next-line react/prop-types
 const SearchBar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
-  const handleChange = (evt) => {
-    setQuery(evt.target.value);
+  const handleChange = (e) => {
+    setQuery(e.target.value);
   };
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (query.trim() === '') {
-      toast.error('Please enter a search term');
+      toast.error('Please enter a search query');
       return;
     }
-    onSubmit(query.trim());
+    onSubmit(query);
     setQuery('');
   };
 
@@ -32,7 +30,6 @@ const SearchBar = ({ onSubmit }) => {
           onChange={handleChange}
         />
         <button type="submit">Search</button>
-        <ToastContainer />
       </form>
     </header>
   );
