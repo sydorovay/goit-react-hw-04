@@ -5,7 +5,8 @@ import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
-import './App.module.css';
+import css from'./App.module.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ACCESS_KEY = '6ExAHC6-du7tOAIV_7CaxGFdf31Pi8h-TkJXD2D6UvY';
 
@@ -64,6 +65,7 @@ const App = () => {
   return (
     <div className="app">
       <SearchBar onSubmit={handleSearch} />
+      <Toaster className={css.toaster}/>
       {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} onImageClick={handleImageClick} />
       {loading && <Loader />}
