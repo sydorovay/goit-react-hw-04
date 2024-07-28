@@ -5,10 +5,12 @@ import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
-import css from'./App.module.css';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+import css from './App.module.css';
 
 const ACCESS_KEY = '6ExAHC6-du7tOAIV_7CaxGFdf31Pi8h-TkJXD2D6UvY';
+const BASE_URL = 'https://api.unsplash.com';
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -21,21 +23,23 @@ const App = () => {
 
   useEffect(() => {
     if (query) {
-      fetchImages();
+      fetchImages(query, page);
     }
   }, [query, page]);
 
-  const fetchImages = async () => {
+  const fetchImages = async (query, page) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=${ACCESS_KEY}`);
-      const data = await response.json();
-      if (response.ok) {
-        setImages((prevImages) => [...prevImages, ...data.results]);
-      } else {
-        setError(data.errors[0]);
-      }
+      const response = await axios.get(`${BASE_URL}/search/photos`, {
+        params: {
+          query,
+          page,
+          per_page: 12,
+          client_id: ACCESS_KEY,
+        },
+      });
+      setImages((prevImages) => [...prevImages, ...response.data.results]);
     } catch (error) {
       setError(error.message);
     }
@@ -63,9 +67,9 @@ const App = () => {
   };
 
   return (
-    <div className="app">
+    <div className={css.app}>
       <SearchBar onSubmit={handleSearch} />
-      <Toaster className={css.toaster}/>
+      <Toaster />
       {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} onImageClick={handleImageClick} />
       {loading && <Loader />}
