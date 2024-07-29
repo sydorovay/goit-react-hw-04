@@ -26,8 +26,3 @@ button {
   font-size: 14px;
   cursor: pointer;
 }
-
-.no-scroll {
-  overflow: hidden;
-}
-

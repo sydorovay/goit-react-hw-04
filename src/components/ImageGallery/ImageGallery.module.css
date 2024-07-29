@@ -1,10 +1,11 @@
 .imageGallery {
+  margin-top: 50px ;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   list-style: none;
   padding: 0;
-  margin: 0;
+
 }
 
 .imageGalleryItem {
