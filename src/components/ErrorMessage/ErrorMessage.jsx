@@ -8,7 +8,7 @@ const ErrorMessage = ({ error }) => {
 
   return (
     <div className={css.message}>
-      <p>{message}</p>
+      <p>{error}</p>
     </div>
   );
 };
