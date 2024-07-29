@@ -1,5 +1,8 @@
 body {
 background: linear-gradient(90deg, rgba(174, 171, 241, 1) 2%, rgba(0, 193, 255, 0.2494395707501751) 100%);
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
 header {
