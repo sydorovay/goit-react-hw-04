@@ -3,9 +3,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 90%;
-  max-height: 90%;
-  overflow: auto;
+  max-width: 85%;
+  max-height: 85%;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .overlay {
@@ -19,8 +23,8 @@
 
 .closeButton {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
   width: 20px;
   height: 20px;
   background-color: lightgrey;
@@ -40,6 +44,7 @@
 }
 
 .modalImage {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
