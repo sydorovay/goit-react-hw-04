@@ -1,6 +1,13 @@
-const ErrorMessage = ({ message }) => {
+import css from './ErrorMessage.module.css'
+
+
+const ErrorMessage = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+
   return (
-    <div className="error-message">
+    <div className={css.message}>
       <p>{message}</p>
     </div>
   );

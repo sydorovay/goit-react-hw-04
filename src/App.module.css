@@ -26,7 +26,8 @@ button {
   font-size: 14px;
   cursor: pointer;
 }
-button:hover {
-  background-color: #ffffff
+
+.no-scroll {
+  overflow: hidden;
 }
 

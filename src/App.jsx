@@ -5,9 +5,9 @@ import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
+import css from './App.module.css';
 import { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-import css from './App.module.css';
 
 const ACCESS_KEY = '6ExAHC6-du7tOAIV_7CaxGFdf31Pi8h-TkJXD2D6UvY';
 const BASE_URL = 'https://api.unsplash.com';
@@ -41,9 +41,10 @@ const App = () => {
       });
       setImages((prevImages) => [...prevImages, ...response.data.results]);
     } catch (error) {
-      setError(error.message);
+      setError('Failed to fetch images');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleSearch = (searchQuery) => {
