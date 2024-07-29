@@ -18,16 +18,17 @@ const App = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (query) {
-      fetchImages(query, page);
+      fetchImages();
     }
   }, [query, page]);
 
-  const fetchImages = async (query, page) => {
+  const fetchImages = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -39,18 +40,20 @@ const App = () => {
           client_id: ACCESS_KEY,
         },
       });
-      setImages((prevImages) => [...prevImages, ...response.data.results]);
+      const data = response.data;
+      setImages((prevImages) => [...prevImages, ...data.results]);
+      setHasMore(page < data.total_pages);
     } catch (error) {
-      setError('Failed to fetch images');
-    } finally {
-      setLoading(false);
+      setError(error.message);
     }
+    setLoading(false);
   };
 
   const handleSearch = (searchQuery) => {
     setQuery(searchQuery);
     setImages([]);
     setPage(1);
+    setHasMore(true);
   };
 
   const handleLoadMore = () => {
@@ -74,7 +77,15 @@ const App = () => {
       {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} onImageClick={handleImageClick} />
       {loading && <Loader />}
-      {images.length > 0 && !loading && <LoadMoreBtn onLoadMore={handleLoadMore} />}
+      {!loading && images.length === 0 && query && (
+        <p className={css.noImagesText}>No images available for loading</p>
+      )}
+      {images.length > 0 && !loading && hasMore && (
+        <LoadMoreBtn onLoadMore={handleLoadMore} />
+      )}
+      {images.length > 0 && !loading && !hasMore && (
+        <p className={css.noImagesText}>No more images available for loading</p>
+      )}
       {showModal && <ImageModal image={selectedImage} onClose={closeModal} />}
     </div>
   );
